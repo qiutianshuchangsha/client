@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="res\Client.rc2">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\Client.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\bitmap1.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\bitmap2.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\bmp00001.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\bmp00002.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\bmp00003.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\bmp00004.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\icon1.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\..\..\..\..\Desktop\光驱.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\..\..\..\..\Desktop\软驱.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\..\..\..\..\Desktop\文件夹.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\..\..\..\..\Desktop\硬盘.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\..\..\..\..\Desktop\文件夹2.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\光驱.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\软驱.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\文件夹1.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\硬盘.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\文件夹2.ico">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Client.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TcpTran.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="comm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="NL_QQwry.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FileManageDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchListCtrl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceManageDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ServicManageEditDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyLogDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcManageDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RegManageDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoteDesktopDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="JpegFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FullScreenTitleBar.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FullScreenTitleBarConst.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ShellDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoManage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GetScreenToBitMap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Huffman.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Client.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TcpTran.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="NL_QQwry.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManageDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchListCtrl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ServiceManageDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ServicManageEditDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyLogDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcManageDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RegManageDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RemoteDesktopDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="JpegFile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FullScreenTitleBar.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ShellDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoManage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GetScreenToBitMap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Huffman.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
