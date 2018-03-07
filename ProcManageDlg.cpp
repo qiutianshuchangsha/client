@@ -18,9 +18,7 @@ CProcManageDlg *m_procmanagedlg = NULL;
 DWORD WINAPI InitList(std::vector<PROCESSINFO *> pVecTor)
 {
 	
-	//std::vector<PROCESSINFO> *pVecTor = (std::vector<PROCESSINFO>) lp;
-    //std::vector<PROCESSINFO> *pVecTor =(vector<PROCESSINFO> ) lp;
- 
+
 	m_procmanagedlg->m_list.DeleteAllItems();
 	for(DWORD i = 0; i < pVecTor.size(); i++)
 	{
@@ -32,13 +30,9 @@ DWORD WINAPI InitList(std::vector<PROCESSINFO *> pVecTor)
 	    m_procmanagedlg->m_list.SetItemText(i,0,tmp);
     
 	    tmp.Format("%s",pVecTor[i]->ProcName);
-	
-	//    m_procmanagedlg->m_list.InsertItem(i,(const char *)1);
  	    m_procmanagedlg->m_list.SetItemText(i,1,tmp);
 	
-	     tmp.Format("%s",pVecTor[i]->ProcPath); 
-	
-	 //   m_procmanagedlg->m_list.InsertItem(i,(const char *)2);
+	    tmp.Format("%s",pVecTor[i]->ProcPath); 
 	    m_procmanagedlg->m_list.SetItemText(i,2,tmp);
 			
 	}
@@ -55,9 +49,6 @@ CProcManageDlg::CProcManageDlg(SOCKET s,CWnd* pParent /*=NULL*/)
 {
 	m_procmanagedlg=this;
 	m_procmanagedlg->ClientSocket = s;
-//	CString str;
-//	str.Format("%d",m_procmanagedlg->ClientSocket);
-//	AfxMessageBox(str);
 }
 
 CProcManageDlg::~CProcManageDlg()
@@ -69,8 +60,6 @@ void OnStart()
 	COMMAND m_command;
 	
 	int len = 0;
-
-    //extern  SOCKET g__clientsocket ;
 	memset((char  *)&m_command, 0,sizeof(m_command));
 
     m_command.wCmd = CMD_PROCESS_MANAGE;
@@ -102,11 +91,7 @@ void OnStart()
 			tmp = new PROCESSINFO;
 			memset(tmp, 0,sizeof(PROCESSINFO));
 			m_tcptran.myrecv(m_procmanagedlg->ClientSocket,(char *)tmp,sizeof(PROCESSINFO),0,60,0,false);			
-			
 			pProcInfo.push_back(tmp);
-
-			//delete tmp;
-			
 		}
 		
 		InitList(pProcInfo);
@@ -130,7 +115,6 @@ BOOL CProcManageDlg::OnInitDialog()
  	m_list.InsertColumn(0,"进程ID",LVCFMT_LEFT,50);  
  	m_list.InsertColumn(1,"进程名称",LVCFMT_LEFT,110);
  	m_list.InsertColumn(2,"路径",LVCFMT_LEFT,360); 
-	//m_procmanagedlg->m_list.InsertItem(0,"xxxxxxxxxxxx");
 	ShowWindow(SW_NORMAL);
 	OnStart();
 
@@ -191,13 +175,6 @@ void CProcManageDlg::OnClickList1(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: 在此添加控件通知处理程序代码
 	if(pNMListView->iItem != -1)
     {
-		//调试用代码
-		////////////////////////////////////////////////////////////////////////
-        //        CString strtemp;
-        //        strtemp.Format("单击的是第%d行第%d列",
-        //                        pNMListView->iItem, pNMListView->iSubItem);
-        //        AfxMessageBox(strtemp);
-		////////////////////////////////////////////////////////////////////////
                 procitem  = pNMListView->iItem;
     }
 	*pResult = 0;
@@ -222,9 +199,6 @@ void CProcManageDlg::OnProcKill()
 	DWORD tmp_pid = 0;
 
 	id = m_list.GetItemText(procitem,0);
-
-//	id.Format("%d",tmp_pid);
-
 	tmp_pid = _ttoi(id);
 
 	m_command.DataSize = tmp_pid;
@@ -244,26 +218,16 @@ void CProcManageDlg::OnProcKill()
 
 	if (processlen>0)
 	{
-		
 		std::vector<PROCESSINFO *> pProcInfo;
-
         PROCESSINFO *tmp = new PROCESSINFO; //一样的问题 
-		// 
- 
         for(int i=0;i<buf;i++)
 		{
 			tmp = new PROCESSINFO;
 			memset(tmp, 0,sizeof(PROCESSINFO));
 			m_tcptran.myrecv(m_procmanagedlg->ClientSocket,(char *)tmp,sizeof(PROCESSINFO),0,60,0,false);			
-			
 			pProcInfo.push_back(tmp);
-
-			//delete tmp;
-			
 		}
-
-		InitList(pProcInfo);
-		
+		InitList(pProcInfo);	
 	}
 }
 

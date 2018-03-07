@@ -26,21 +26,17 @@ UINT ListDirThread(LPVOID lparam)
 	if(pDlg->ClientSocket!=INVALID_SOCKET)
 	{
 		pDlg->m_list.SetRedraw(FALSE);
-  //      pDlg->m_list.DrawSearch(TRUE);
 		COMMAND m_command;
 		memset(&m_command,0,sizeof(COMMAND));
 		m_command.wCmd = CMD_FILE_GETSUBFILE;
-
         strcpy(m_command.szCurDir , pDlg->chrPath );
-
-		m_tcptran.mysend(pDlg->ClientSocket,(char *)&m_command,sizeof(COMMAND),0,60);//枚举文件
+	    m_tcptran.mysend(pDlg->ClientSocket,(char *)&m_command,sizeof(COMMAND),0,60);//枚举文件
 		FILEINFO fileinfo;
 	    do
 		{
 		   m_tcptran.myrecv(pDlg->ClientSocket,(char *)&fileinfo,sizeof(FILEINFO),0,60,NULL,false);//接收目标数据
 		   if(fileinfo.next ==0)
 			  break;
-
 		   HTREEITEM hit;
 		   if(fileinfo.isdirectory ==1)
 		   {
@@ -82,12 +78,9 @@ UINT DriverInfoThread(LPVOID lparam)
 	{  
 	    int ret;
 		DRIVER driver;
-
 		COMMAND m_command;
 		m_command.wCmd = CMD_FILE_MANAGE;
-
 		ret=m_tcptran.mysend(pDlg->ClientSocket,(char *)&m_command,sizeof(COMMAND),0,60);//获得盘符信息
-
 	    pDlg->m_tree.DeleteAllItems();
 	    pDlg->m_list.DeleteAllItems();
 		while(ret>0)
@@ -233,7 +226,7 @@ afx_msg LRESULT CFileManageDlg::OnStopMessage(WPARAM wParam, LPARAM lParam)
 void CFileManageDlg::OnFileDel()
 {
 	// TODO: 在此添加命令处理程序代码
-	 char FilePath[MAX_PATH];
+	char FilePath[MAX_PATH];
 	CString path;
 	GetDlgItem(IDC_CURRENT)->GetWindowText(path);
 	strcpy(FilePath,path);
@@ -326,8 +319,6 @@ BOOL CFileManageDlg::OnInitDialog()
 	HICON hIcon4 = ::LoadIcon (::AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_ICON5));
 	m_ImageList1.Add(hIcon4);
 	m_tree.SetImageList(&m_ImageList1,TVSIL_NORMAL);//添加图标
-	
-	// TODO: Add extra initialization here
 	LONG lStyle = m_list.SendMessage(LVM_GETEXTENDEDLISTVIEWSTYLE);
 	lStyle |= LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_HEADERDRAGDROP;
 	m_list.SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0,(LPARAM)lStyle);
@@ -340,10 +331,6 @@ BOOL CFileManageDlg::OnInitDialog()
  	m_list.InsertColumn(1,"文件大小",LVCFMT_LEFT,90);
  	m_list.InsertColumn(2,"修改时间",LVCFMT_LEFT,120);
 
-
-//备注：字符串结尾\0设置的问题 初始化时要更新
-
-	//创建ImageList
     HIMAGELIST hImageList;
 	//定义文件信息变量
 	SHFILEINFO shFi;
@@ -358,8 +345,6 @@ BOOL CFileManageDlg::OnInitDialog()
 	//将文件图象列表存入m_ctImageList
 	m_ImageList2.m_hImageList = hImageList;
 	m_list.SetImageList(&m_ImageList2,LVSIL_SMALL);//添加图标
-
-
 	pDriverInfoThread = AfxBeginThread(DriverInfoThread, (LPVOID)this);
 
 	return TRUE;

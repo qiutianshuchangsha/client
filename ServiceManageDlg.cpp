@@ -69,35 +69,17 @@ void OnServiceStart()
 
 	if (servicelen>0)
 	{
-		
 		std::vector<SERVICEINFO *> pServiceInfo;
-		
-        SERVICEINFO *tmp = new SERVICEINFO; //一样的问题 
-		// 
-
+        SERVICEINFO *tmp = new SERVICEINFO; 
         for(int i=0;i<sbuf;i++)
 		{
 			tmp = new SERVICEINFO;
 			memset(tmp, 0,sizeof(SERVICEINFO));
 			m_tcptran.myrecv(m_servicemanagedlg->ClientSocket,(char *)tmp,sizeof(SERVICEINFO),0,60,0,false);			
-			
-			pServiceInfo.push_back(tmp);
-			
-			//delete tmp;
-			
+			pServiceInfo.push_back(tmp);		
 		}
-        /*
-		for(int jj = 0;jj<pServiceInfo.size();jj++)
-		{
-			AfxMessageBox(pServiceInfo[jj]->ServiceName);
-		}		
-		*/
-		
-		InitListService(pServiceInfo);
-		
+		InitListService(pServiceInfo);		
 	}
-	
-	
 }
 
 CServiceManageDlg::CServiceManageDlg(SOCKET s,CWnd* pParent /*=NULL*/)
@@ -174,28 +156,12 @@ void CServiceManageDlg::OnServSet()
 	CServicManageEditDlg m_servicemanageeditdlg;
 
 	m_servicemanageeditdlg.m_ClientSocket = ClientSocket;
-
-	// get service pram		
+	
 	CString id;
-
-	//char *m_chsvr = (char *)(LPCSTR)m_list.GetItemText(Svritem,0); 
-	//strcpy(m_servicemanageeditdlg.ServiceName,m_chsvr);
-
     m_servicemanageeditdlg.ServiceName=m_list.GetItemText(Svritem,0); 
-
 	m_servicemanageeditdlg.ServiceState=m_list.GetItemText(Svritem,2); 
-
 	m_servicemanageeditdlg.ServiceStartType=m_list.GetItemText(Svritem,3); 
-
-	//id = m_list.GetItemText(Svritem,2);
-//	m_chsvr = (char *)(LPCSTR)m_list.GetItemText(Svritem,2); 
-//	strcpy(m_servicemanageeditdlg.ServiceState,m_chsvr);	
-//	
-//	m_chsvr = (char *)(LPCSTR)m_list.GetItemText(Svritem,3); 
-//	strcpy(m_servicemanageeditdlg.ServiceStartType,m_chsvr);
-
 	m_servicemanageeditdlg.DoModal();
-
 
 }
 
@@ -204,31 +170,17 @@ void CServiceManageDlg::OnServDelete()
 {
 	// TODO: 在此添加命令处理程序代码
 	COMMAND m_command;
-
 	int len = 0;
-
-    //extern  SOCKET g__clientsocket ;
 	memset((char  *)&m_command, 0,sizeof(m_command));
-
-    m_command.wCmd = CMD_SERVICE_DEL;
-   
-    // get SvrID 		
+    m_command.wCmd = CMD_SERVICE_DEL;		
 	CString id;
-
 	DWORD tmp_Serviceid = 0;
-
 	id = m_list.GetItemText(Svritem,0);
-
 	char *m_chsvr = (char *)(LPCSTR)m_list.GetItemText(Svritem,0); 
-		
 	strcpy(m_command.tmp,m_chsvr);
-
 	CTcpTran m_tcptran ; 
-
     int sbuf = 0; 
-    
 	len = m_tcptran.mysend(m_servicemanagedlg->ClientSocket,(char *)&m_command,sizeof(m_command),0,60);
-
     if (len<0)
 	{
 		len = m_tcptran.mysend(m_servicemanagedlg->ClientSocket,(char *)&m_command,sizeof(m_command),0,60);    
@@ -238,26 +190,16 @@ void CServiceManageDlg::OnServDelete()
 
 	if (Svrlen>0)
 	{
-		
 		std::vector<SERVICEINFO *> pServiceInfo;
-		
-        SERVICEINFO *tmp = new SERVICEINFO; //一样的问题 
-		// 
-
+        SERVICEINFO *tmp = new SERVICEINFO; 
         for(int i=0;i<sbuf;i++)
 		{
 			tmp = new SERVICEINFO;
 			memset(tmp, 0,sizeof(SERVICEINFO));
-			m_tcptran.myrecv(m_servicemanagedlg->ClientSocket,(char *)tmp,sizeof(SERVICEINFO),0,60,0,false);			
-			
-			pServiceInfo.push_back(tmp);
-			
-			//delete tmp;
-			
-		}
-		
-		InitListService(pServiceInfo);
-		
+			m_tcptran.myrecv(m_servicemanagedlg->ClientSocket,(char *)tmp,sizeof(SERVICEINFO),0,60,0,false);						
+			pServiceInfo.push_back(tmp);		
+		}	
+		InitListService(pServiceInfo);	
 	}
 }
 
@@ -276,7 +218,6 @@ BOOL CServiceManageDlg::OnInitDialog()
 	lvc.mask = LVCF_TEXT | LVCF_SUBITEM | LVCF_WIDTH /*| LVCF_FMT*/;
 	
 	m_list.DeleteAllItems();
- 	//m_list.InsertColumn(0,"编号",LVCFMT_LEFT,50);
     m_list.InsertColumn(0,"服务名称",LVCFMT_LEFT,120);
 	m_list.InsertColumn(1,"描述",LVCFMT_LEFT,270);
 	m_list.InsertColumn(2,"状态",LVCFMT_LEFT,80);

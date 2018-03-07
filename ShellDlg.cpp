@@ -36,7 +36,6 @@ UINT CmdShellThread(LPVOID lparam)
 		strcpy(m_control.szCurDir,command);
  
 		ret=m_tcptran.mysend(pDlg->ClientSocket,(char *)&m_control,sizeof(m_control),0,60);//开启CMDSHELL	
-	//	AfxMessageBox("ssssssssss");
 		while(ret>0)
 		{
 			ret=m_tcptran.myrecv(pDlg->ClientSocket,RecvBuf,sizeof (RecvBuf),0,10,0,true); //接收目标数据
@@ -128,7 +127,7 @@ BOOL CShellDlg::OnInitDialog()
 
 	CDialog::OnInitDialog();
 
-	SetDlgItemText(IDC_EDIT2,"net share");
+	SetDlgItemText(IDC_EDIT2,"  ");
 
 	//UpdateData(FALSE);
 

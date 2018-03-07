@@ -70,10 +70,8 @@ typedef struct tagCommand
 	
 }COMMAND,*LPCOMMAND;
 
-/**/
 typedef struct tagTmpSocket {
 	SOCKET ClientSocket;
-	//CString m_ip;
 	char HDSerial[64];
 }TMPSOCKET,*LPTMPSOCKET;
 
@@ -85,14 +83,6 @@ typedef struct tagServiceInfo{
     char  ServiceStartType[16];
 }SERVICEINFO,*LPSERVICEINFO;
 
-/*
-typedef struct tagDriver
-{
-   char szDriverName[500];
-   char szDriverLabel[500];
-//   UINT nDriverType;
-}DRIVER,*LPDRIVER;
-*/
 
 typedef struct tagDriver
 {
@@ -100,16 +90,6 @@ typedef struct tagDriver
 	int  drivertype;
 	BOOL end;
 }DRIVER;//硬盘结构体
-/*
-typedef struct tagFileInfo{
-  
-    TCHAR      pcFileName[ MAX_PATH ];
-    DWORD      pfsize ;
-    char       pfiletime[16];
-    UINT       IsDIR;
-
-}FILEINFO,*LPFILEINFO;
-*/
 typedef struct tagFileInfo
 {
 	BOOL invalidir;                       //无效目录

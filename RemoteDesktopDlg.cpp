@@ -52,9 +52,7 @@ END_MESSAGE_MAP()
 DWORD WINAPI Set_BackGroud_Image()
 {
    	if (m_remotedesktopdlg->m_lpImageData==NULL) return 1;
-
     HWND   hWnd=m_remotedesktopdlg->GetSafeHwnd();
-
 	CRect rc;
 	HWND Handle = GetDlgItem(hWnd,IDC_STATIC_PICTURE);//获取窗口主句柄  
 	 CWnd *hwnd = CWnd::FromHandle(Handle);  
@@ -130,21 +128,14 @@ int Get_Screen_Data(LPVOID lpBmpData,LPCOMMAND lpMsg)
 	
     m_remotedesktopdlg->m_Jpeg.BGRFromRGB(lpData, m_remotedesktopdlg->m_nBmpWidth, m_remotedesktopdlg->m_nBmpHeight);
     m_remotedesktopdlg->m_Jpeg.VertFlipBuf(lpData, m_remotedesktopdlg->m_nBmpWidth * 3, m_remotedesktopdlg->m_nBmpHeight);
-
-
-
 	m_remotedesktopdlg->m_nBmpTop= lpMsg->rcArea.top;
 	m_remotedesktopdlg->m_nBmpLeft = lpMsg->rcArea.left;
-
 	UINT m_widthDW;
 	m_remotedesktopdlg->m_lpImageData = m_remotedesktopdlg->m_Jpeg.MakeDwordAlignedBuf((BYTE *)lpData,
 							m_remotedesktopdlg->m_nBmpWidth,
 							m_remotedesktopdlg->m_nBmpHeight,
 							&m_widthDW);
-
-
 	 //step 3:进入bmp图片显示线程
-//	AfxMessageBox("进入bmp图片显示线程");
      Set_BackGroud_Image ();
 
 	 return 0;
@@ -189,26 +180,18 @@ loop001:
 		if(!g_bImageLogging) goto Exit01;
 		if (m_tcptran.mysend(m_remotedesktopdlg->ClientSocket,(char *)&SendMsg, sizeof(COMMAND),0,5) < 0)
 		{
-//			AfxMessageBox("1");
-//			CString str;
-//			str.Format("%d",m_remotedesktopdlg->ClientSocket);
-//			AfxMessageBox(str);
 			goto Err01;
 		}
 		//Step 2: Get image struct
-//		AfxMessageBox("success");
 		memset(&SendMsg,0, sizeof(COMMAND));
 		if(!g_bImageLogging) goto Exit01;
 
 		if (m_tcptran.myrecv(m_remotedesktopdlg->ClientSocket, (char *)&SendMsg, sizeof(SendMsg),0,60,0,false) < 0)
 		{
-//			AfxMessageBox("2");
 			goto Err01;
 		}
-
 		if(SendMsg.dwBmpSize == 0) //图象无变化
-		{	
-			
+		{		
 			Get_Screen_Data(0,&SendMsg);
 			goto loop001;
         }
@@ -229,18 +212,15 @@ loop001:
 		if(!g_bImageLogging) goto Exit01;
 		if (m_tcptran.myrecv(m_remotedesktopdlg->ClientSocket, lpData, dwSize,0,60,0,false) < 0) 
 		{
-//			AfxMessageBox("3");
 			goto Err01;
 		}
 			nFirst = 1;
 		
 		//Step 5: Show image
 		lpData = (char *)lpBmpData;
-//	    AfxMessageBox("show image");
 		Get_Screen_Data(lpBmpData, &SendMsg);
 
 		if(!g_bImageLogging) goto Exit01;
-		//Sleep(m_remotedesktopdlg->m_nEdtSecond);
 		  Sleep(1500);
 
 		
@@ -257,7 +237,6 @@ Exit01:
 Err02:		
     goto Exit01;
 Err01:		
-//	AfxMessageBox("ddddddddddddddddd");
     goto Exit01;   
 }
 
